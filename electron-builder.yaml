@@ -1,0 +1,67 @@
+appId: com.societe.inventaire
+productName: Inventaire Physique
+copyright: Copyright © 2025
+
+# Dossier des fichiers buildés par Vite
+directories:
+  buildResources: assets
+  output: release
+
+# Fichiers à inclure dans le build
+files:
+  - dist/**
+  - src/main/**
+  - node_modules/**
+  - package.json
+
+# Ressources natives (mieux-sqlite3, bwip-js)
+asarUnpack:
+  - node_modules/better-sqlite3/**
+  - node_modules/bwip-js/**
+
+# ── Linux ──────────────────────────────────────────────────────────────────
+linux:
+  target:
+    - target: AppImage
+      arch: [x64]
+    - target: deb
+      arch: [x64]
+  icon: assets/icons/icon.png
+  category: Office
+  synopsis: Gestion d'inventaire physique
+  description: Application de gestion d'inventaire physique avec codes-barres et décharges
+
+# ── Windows ────────────────────────────────────────────────────────────────
+win:
+  target:
+    - target: nsis
+      arch: [x64]
+  icon: assets/icons/icon.ico
+  publisherName: Société
+
+nsis:
+  oneClick: false              # Installateur avec options
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: Inventaire Physique
+  installerLanguages:
+    - fr_FR
+
+# ── macOS ──────────────────────────────────────────────────────────────────
+mac:
+  target:
+    - target: dmg
+      arch: [x64, arm64]     # Intel + Apple Silicon
+  icon: assets/icons/icon.icns
+  category: public.app-category.business
+
+dmg:
+  title: Inventaire Physique
+  background: assets/dmg-background.png
+  window:
+    width: 540
+    height: 380
+
+# ── Rebuild des modules natifs pour Electron ──────────────────────────────
+npmRebuild: true
