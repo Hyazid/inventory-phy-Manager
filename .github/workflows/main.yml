@@ -37,13 +37,16 @@ jobs:
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: List release folder
+        run: ls -la release/ || echo "release folder empty"
+        if: always()
+
       - name: Upload artifacts
-        uses: actions/upload-artifact@v4
-        with:
-          name: linux-build
           path: |
             release/*.AppImage
             release/*.deb
+            release/**/*.AppImage
+            release/**/*.deb
           retention-days: 30
 
   # ── Windows ──────────────────────────────────────────────────────────────
@@ -73,7 +76,9 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: windows-build
-          path: release/*.exe
+          path: |
+            release/*.exe
+            release/**/*.exe
           retention-days: 30
 
   # ── macOS ────────────────────────────────────────────────────────────────
