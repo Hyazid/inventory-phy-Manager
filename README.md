@@ -43,7 +43,7 @@ Application desktop de gestion d'inventaire physique pour entreprise, développ�
 
 ```bash
 # Cloner le repo
-git clone https://github.com/TON_USERNAME/inventaire-physique.git
+git clone https://github.com/Hyazid/inventaire-physique.git
 cd inventaire-physique
 
 # Installer les dépendances
