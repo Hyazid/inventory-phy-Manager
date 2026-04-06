@@ -1,0 +1,40 @@
+# ============================================================
+# INVENTAIRE PHYSIQUE — Dépendances
+# ============================================================
+# Ce fichier liste toutes les dépendances du projet.
+# Installation : npm install
+
+# ── Runtime (Main Process) ───────────────────────────────────
+better-sqlite3@^9.6.0       # Base de données SQLite locale (WAL mode)
+bwip-js@latest              # Génération codes-barres CODE128 (pur JS, sans bindings natifs)
+pdfkit@^0.15.0              # Génération de fichiers PDF
+xlsx@^0.18.5                # Export Excel (.xlsx)
+
+# ── Runtime (Renderer) ───────────────────────────────────────
+react@^18.3.1               # Interface utilisateur
+react-dom@^18.3.1           # Rendu React dans le DOM
+react-router-dom@^6.30.3    # Routing SPA avec HashRouter (requis pour Electron)
+
+# ── Dev Tools ────────────────────────────────────────────────
+electron@^29.4.6            # Framework desktop cross-platform
+electron-builder@^24.13.3   # Build et packaging (AppImage, deb, exe, dmg)
+vite@^5.4.21                # Bundler ultra-rapide pour le renderer React
+@vitejs/plugin-react@^4.7.0 # Plugin Vite pour JSX/React
+concurrently@^8.2.2         # Lance Vite et Electron en parallèle
+wait-on@^9.0.4              # Attend que Vite soit prêt avant de lancer Electron
+
+# ── Notes importantes ────────────────────────────────────────
+# canvas : NON UTILISÉ — incompatible avec l'ABI Node d'Electron 29
+#          remplacé par bwip-js (pur JavaScript)
+# cross-env : NON UTILISÉ — environnement Linux natif
+#             NODE_ENV=development défini directement dans le script npm
+
+# ── Versions Node/Electron requises ──────────────────────────
+# Node.js  : >= 18.0.0
+# Electron : 29.x (NODE_MODULE_VERSION 121)
+# npm      : >= 9.0.0
+
+# ── Plateformes de build ─────────────────────────────────────
+# Linux  : Ubuntu 22.04+ / Debian — AppImage + .deb
+# Windows: Windows 10+ x64       — .exe (NSIS installer)
+# macOS  : macOS 12+ x64/arm64   — .dmg
