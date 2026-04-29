@@ -1,6 +1,11 @@
 {
   "name": "inventaire-physique",
   "version": "1.0.0",
+  "description": "Application de gestion d'inventaire physique",
+  "author": {
+    "name": "Hyazid",
+    "email": "yazid.hanniche.me@gmail.com"
+  },
   "main": "src/main/index.js",
   "scripts": {
     "dev":         "concurrently \"vite\" \"wait-on http://localhost:5173 && NODE_ENV=development electron .\"",
