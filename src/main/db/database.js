@@ -183,9 +183,10 @@ function _seedDemoData() {
     );
     insertDept.run('DIR', 'Direction Générale',    'M. Directeur',  'Bâtiment A - RDC');
     insertDept.run('IT',  'Informatique',           'M. Technicien', 'Bâtiment B - 1er');
-    insertDept.run('RH',  'Ressources Humaines',    'Mme RH',        'Bâtiment A - 2ème');
-    insertDept.run('FIN', 'Finance & Comptabilité', 'Mme Finance',   'Bâtiment A - 1er');
-    insertDept.run('LOG', 'Logistique',             'M. Logistique', 'Bâtiment C');
+    insertDept.run('RH',  'Ressources Humaines',    'M. RH',        'Bâtiment A - 2ème');
+    insertDept.run('FIN', 'Finance & Comptabilité', 'M. Finance',   'Bâtiment A - 1er');
+    insertDept.run('TEC', 'technique',             'M. Ingenieur', 'Bâtiment A');
+    insertDept.run('Div', 'Administaration',             'M. ', 'Bâtiment A');
 
     const insertCat = db.prepare(`INSERT INTO categories (nom, icone) VALUES (?, ?)`);
     insertCat.run('Informatique', 'monitor');

@@ -3,19 +3,18 @@ name: Build Inventaire Physique
 on:
   push:
     tags:
-      - 'v*'          # Déclenché sur chaque tag v1.0.0, v1.1.0, etc.
-  workflow_dispatch:  # Permet de lancer manuellement depuis GitHub
+      - 'v*'
+  workflow_dispatch:
 
 jobs:
 
-  # ── Linux ────────────────────────────────────────────────────────────────
+  # ── Linux ──────────────────────────────────────────────────
   build-linux:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
@@ -23,40 +22,44 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Install Linux build deps
+      - name: Install Linux system deps
         run: |
           sudo apt-get update
-          sudo apt-get install -y libgtk-3-dev libnotify-dev libnss3 libxss1 \
-            libasound2t64 libxtst6 xauth xvfb rpm
+          sudo apt-get install -y libgtk-3-dev libnotify-dev libnss3 \
+            libxss1 libasound2t64 libxtst6 xauth xvfb rpm
+
+      - name: Rebuild native modules
+        run: npx electron-rebuild -f -w better-sqlite3
 
       - name: Build Vite
         run: npx vite build
 
-      - name: Build Electron — Linux
+      - name: Build Electron Linux
         run: npx electron-builder --linux --x64
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: List release folder
-        run: ls -la release/ || echo "release folder empty"
+      - name: Debug — list release/
         if: always()
+        run: find release -type f | head -30 || echo "release/ vide"
 
-      - name: Upload artifacts
+      - name: Upload Linux artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux-build
           path: |
             release/*.AppImage
             release/*.deb
-            release/**/*.AppImage
-            release/**/*.deb
+          if-no-files-found: warn
           retention-days: 30
 
-  # ── Windows ──────────────────────────────────────────────────────────────
+  # ── Windows ────────────────────────────────────────────────
   build-windows:
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
@@ -64,31 +67,37 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Rebuild native modules
+        run: npx electron-rebuild -f -w better-sqlite3
+
       - name: Build Vite
         run: npx vite build
 
-      - name: Build Electron — Windows
+      - name: Build Electron Windows
         run: npx electron-builder --win --x64
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload artifacts
+      - name: Debug — list release/
+        if: always()
+        shell: bash
+        run: find release -type f | head -30 || echo "release/ vide"
+
+      - name: Upload Windows artifacts
         uses: actions/upload-artifact@v4
         with:
           name: windows-build
-          path: |
-            release/*.exe
-            release/**/*.exe
+          path: release/*.exe
+          if-no-files-found: warn
           retention-days: 30
 
-  # ── macOS ────────────────────────────────────────────────────────────────
+  # ── macOS ──────────────────────────────────────────────────
   build-mac:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
 
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
@@ -96,29 +105,38 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Rebuild native modules
+        run: npx electron-rebuild -f -w better-sqlite3
+
       - name: Build Vite
         run: npx vite build
 
-      - name: Build Electron — macOS
-        run: npx electron-builder --mac --x64 --arm64
+      - name: Build Electron macOS
+        run: npx electron-builder --mac --x64
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Upload artifacts
+      - name: Upload macOS artifacts
         uses: actions/upload-artifact@v4
         with:
           name: mac-build
           path: release/*.dmg
+          if-no-files-found: warn
           retention-days: 30
 
-  # ── Release GitHub (optionnel) ───────────────────────────────────────────
+  # ── Release ────────────────────────────────────────────────
   release:
     needs: [build-linux, build-windows, build-mac]
     runs-on: ubuntu-latest
-    if: startsWith(github.ref, 'refs/tags/') || github.event_name == 'workflow_dispatch'
+    if: startsWith(github.ref, 'refs/tags/')
+    permissions:
+      contents: write
     steps:
       - name: Download all artifacts
         uses: actions/download-artifact@v4
+
+      - name: List downloaded files
+        run: find . -type f | head -30
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
