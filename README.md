@@ -131,13 +131,9 @@ npm run build:linux
 
 ### Toutes plateformes (GitHub Actions)
 
-```bash
-# Crée un tag pour déclencher le build automatique
-git tag v1.0.0
-git push origin v1.0.0
-```
 
-GitHub Actions buildera automatiquement pour Linux, Windows et macOS. Les artifacts sont disponibles dans **Releases**.
+
+GitHub Actions buildera automatiquement pour Linux, Windows . Les artifacts sont disponibles dans **Releases**.
 
 ---
 
@@ -149,7 +145,7 @@ La DB SQLite est stockée dans le dossier userData de l'OS :
 |----|--------|
 | Linux | `~/.config/inventaire-physique/inventaire.db` |
 | Windows | `%APPDATA%\inventaire-physique\inventaire.db` |
-| macOS | `~/Library/Application Support/inventaire-physique/inventaire.db` |
+
 
 ### Tables principales
 
@@ -186,6 +182,19 @@ Les sauvegardes utilisent la méthode native `.backup()` de better-sqlite3 — a
 
 ---
 
-## Licence
+## Screenshots
+<img width="1330" height="600" alt="Screenshot_2026-04-02_14-10-07" src="https://github.com/user-attachments/assets/7942b491-45b6-413c-a93d-5842127f53ff" />
 
-Usage interne — tous droits réservés.
+<img width="1325" height="601" alt="Screenshot_2026-04-05_15-19-00" src="https://github.com/user-attachments/assets/24eb85d3-a7a8-4c77-a306-9d6ec7169c92" />
+
+<img width="1326" height="396" alt="Screenshot_2026-04-05_15-18-26" src="https://github.com/user-attachments/assets/9ef5194e-427d-488b-8330-08df119e9573" />
+
+<img width="1331" height="554" alt="Screenshot_2026-04-05_15-17-53" src="https://github.com/user-attachments/assets/8b365885-c4c2-4103-a10f-ac8f170b4c57" />
+
+<img width="1319" height="515" alt="Screenshot_2026-04-05_15-17-25" src="https://github.com/user-attachments/assets/aea0e543-3716-420c-8bc2-756ba7d2939a" />
+
+<img width="1351" height="450" alt="Screenshot_2026-04-05_15-16-54" src="https://github.com/user-attachments/assets/639e8568-7229-441c-999b-7e20927d6abf" />
+
+<img width="1329" height="644" alt="Screenshot_2026-04-05_15-16-22" src="https://github.com/user-attachments/assets/4950a4f3-dcbc-49b9-a1e4-325dd9758c49" />
+
+<img width="1326" height="583" alt="Screenshot_2026-04-02_14-11-01" src="https://github.com/user-attachments/assets/8ca3ffdf-6a73-4482-9782-fa69ae79327a" />
